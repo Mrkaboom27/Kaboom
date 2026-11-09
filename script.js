@@ -22,7 +22,7 @@ themeToggle.addEventListener("click", () => {
 });
 
 // ============================================================
-// 2. DISCORD PRESENCE (Lanyard API — free, no key, no backend)
+// 2. DISCORD PRESENCE (Lanyard API)
 // ============================================================
 //
 // REQUIRED SETUP:
@@ -33,7 +33,7 @@ themeToggle.addEventListener("click", () => {
 //   Discord Settings → Advanced → enable Developer Mode
 //   → right-click your profile → "Copy User ID"
 //
-const DISCORD_USER_ID = "1201125553864970300"; // <-- PASTE YOUR ID HERE
+const DISCORD_USER_ID = "YOUR_DISCORD_ID"; // <-- PASTE YOUR ID HERE
 
 const presenceContainer = document.getElementById("presence-content");
 
@@ -45,16 +45,13 @@ function statusDotClass(status) {
 }
 
 function renderPresence(data) {
-  // data = the `data` object from Lanyard's response
   const discordUser = data.discord_user;
   const activities = data.activities || [];
 
   // Find the first activity with type === 0 (Playing a game)
-  // Type 0 = Game, Type 2 = Spotify, Type 3 = Watching, etc.
   const gameActivity = activities.find((a) => a.type === 0);
 
   if (!gameActivity) {
-    // Online but not playing a game
     presenceContainer.innerHTML = `
       <p class="placeholder-text">
         <span class="discord-status-dot ${statusDotClass(data.discord_status)}"></span>
@@ -64,17 +61,14 @@ function renderPresence(data) {
     return;
   }
 
-  // Build game art URL
   let artUrl = "";
   if (gameActivity.assets?.large_image) {
     const img = gameActivity.assets.large_image;
     if (img.startsWith("mp:external/")) {
-      // Discord external assets
       artUrl = `https://media.discordapp.net/external/${img.replace("mp:external/", "")}`;
     } else if (img.startsWith("spotify:")) {
       artUrl = `https://i.scdn.co/image/${img.replace("spotify:", "")}`;
     } else {
-      // Standard Discord CDN asset
       artUrl = `https://cdn.discordapp.com/app-assets/${gameActivity.application_id}/${img}.png`;
     }
   }
@@ -136,13 +130,9 @@ async function fetchPresence() {
   }
 }
 
-// Initial fetch
 fetchPresence();
-
-// Refresh every 30 seconds (Lanyard rate limit is 1000 req/hour, so this is safe)
 setInterval(fetchPresence, 30000);
 
-// Optional: refresh when the tab becomes visible again
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) fetchPresence();
 });
