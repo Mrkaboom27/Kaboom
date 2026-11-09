@@ -4,7 +4,6 @@
 const themeToggle = document.getElementById("theme-toggle");
 const html = document.documentElement;
 
-// Load saved theme, or fall back to system preference
 const savedTheme = localStorage.getItem("theme");
 const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
@@ -24,38 +23,32 @@ themeToggle.addEventListener("click", () => {
 // ============================================================
 // 2. DISCORD PRESENCE (Lanyard API)
 // ============================================================
-//
-// REQUIRED SETUP:
-//   1. Join the Lanyard Discord server: https://discord.gg/UrXF2cfJ7F
-//   2. Paste your Discord User ID below (replace YOUR_DISCORD_ID).
-//
-// To find your Discord User ID:
-//   Discord Settings → Advanced → enable Developer Mode
-//   → right-click your profile → "Copy User ID"
-//
-const DISCORD_USER_ID = 1201125553864970300; // <-- PASTE YOUR ID HERE
+// REQUIRED: Paste your Discord User ID below.
+const DISCORD_USER_ID = "YOUR_DISCORD_ID"; // <-- PASTE YOUR ID HERE
 
 const presenceContainer = document.getElementById("presence-content");
+const statusIndicator = document.getElementById("discord-status-indicator");
 
 function statusDotClass(status) {
   if (status === "online") return "online";
   if (status === "idle") return "idle";
   if (status === "dnd") return "dnd";
-  return ""; // offline / invisible
+  return "";
 }
 
 function renderPresence(data) {
   const discordUser = data.discord_user;
   const activities = data.activities || [];
 
-  // Find the first activity with type === 0 (Playing a game)
+  // Update the avatar status dot
+  statusIndicator.className = "status-indicator " + statusDotClass(data.discord_status);
+
   const gameActivity = activities.find((a) => a.type === 0);
 
   if (!gameActivity) {
     presenceContainer.innerHTML = `
       <p class="placeholder-text">
-        <span class="discord-status-dot ${statusDotClass(data.discord_status)}"></span>
-        <strong>${discordUser.username}</strong> is online but not playing a game right now.
+        Not playing anything right now.
       </p>
     `;
     return;
@@ -75,7 +68,6 @@ function renderPresence(data) {
 
   const gameName = gameActivity.name || "Unknown Game";
   const details = gameActivity.details || "";
-  const state = gameActivity.state || "";
 
   presenceContainer.innerHTML = `
     <div class="now-playing-active">
@@ -87,35 +79,23 @@ function renderPresence(data) {
       <div class="game-info">
         <h3>${gameName}</h3>
         ${details ? `<p class="game-details">${details}</p>` : ""}
-        ${state ? `<p class="game-state">${state}</p>` : ""}
       </div>
     </div>
   `;
 }
 
 function renderError() {
-  presenceContainer.innerHTML = `
-    <p class="placeholder-text">
-      Could not load Discord presence. Make sure you're in the
-      <a href="https://discord.gg/UrXF2cfJ7F" target="_blank" rel="noopener" style="color: var(--accent);">
-        Lanyard Discord server
-      </a>
-      and your User ID is correct.
-    </p>
-  `;
+  presenceContainer.innerHTML = `<p class="placeholder-text">Could not load Discord presence.</p>`;
 }
 
 async function fetchPresence() {
-  if (DISCORD_USER_ID === "YOUR_DISCORD_ID") {
-    presenceContainer.innerHTML =
-      '<p class="placeholder-text">⚙️ Add your Discord User ID in <code>script.js</code> to enable live presence.</p>';
+  if (DISCORD_USER_ID === 1201125553864970300) {
+    presenceContainer.innerHTML = `<p class="placeholder-text">Add your Discord ID to script.js</p>`;
     return;
   }
 
   try {
-    const res = await fetch(
-      `https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`
-    );
+    const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
     if (!res.ok) throw new Error("Lanyard request failed");
     const json = await res.json();
 
@@ -125,7 +105,6 @@ async function fetchPresence() {
       renderError();
     }
   } catch (err) {
-    console.error("Lanyard fetch error:", err);
     renderError();
   }
 }
