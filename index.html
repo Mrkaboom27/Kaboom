@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@Kaboom</title>
 
-  <!-- Fonts: Inter for UI, JetBrains Mono for techy accents -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -17,68 +17,68 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <!-- Ambient Background Glow -->
-  <div class="ambient-glow"></div>
+  <!-- Animated Background Grid -->
+  <div class="bg-grid"></div>
+  
+  <!-- Theme Toggle (Floating top right) -->
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+    <i class="fa-solid fa-moon"></i>
+  </button>
 
-  <main class="card">
+  <main class="profile-container">
     
-    <!-- TOP BAR: Avatar & Theme Toggle -->
-    <header class="top-bar">
-      <div class="avatar-container">
-        <!-- Using a DiceBear avatar as a placeholder, you can replace the src with your own image URL -->
-        <img src="https://api.dicebear.com/9.x/glass/svg?seed=Kaboom" alt="Avatar" class="avatar" id="avatar">
-        <span class="status-indicator" id="discord-status-indicator"></span>
-      </div>
-      
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-    </header>
+    <!-- AVATAR WITH SPINNING GLOW RING -->
+    <div class="avatar-wrapper">
+      <div class="avatar-glow"></div>
+      <!-- Replace the URL below with your own image if you want -->
+      <img src="https://api.dicebear.com/9.x/glass/svg?seed=Kaboom" alt="Avatar" class="avatar" id="avatar">
+      <span class="status-indicator" id="discord-status-indicator"></span>
+    </div>
 
     <!-- IDENTITY -->
-    <section class="identity">
+    <div class="identity">
       <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified-badge"></i></h1>
-      <p class="tagline">AI Dev &bull; Gamer</p>
-    </section>
+      <p class="tagline"><span class="mono">AI Dev</span> <span class="divider">/</span> <span class="mono">Gamer</span></p>
+    </div>
 
-    <!-- NOW PLAYING (Premium Status Card) -->
-    <section class="now-playing" id="now-playing-card">
-      <div class="now-playing-header">
-        <span class="live-dot"></span>
-        <span>Currently Playing</span>
+    <!-- DYNAMIC DISCORD STATUS -->
+    <div class="presence-widget" id="now-playing-card">
+      <div id="presence-content">
+        <div class="presence-loading">
+          <span class="spinner"></span> Syncing Discord...
+        </div>
       </div>
-      <div id="presence-content" class="presence-body">
-        <p class="placeholder-text">Connecting to Discord...</p>
-      </div>
-    </section>
+    </div>
 
-    <!-- PC SPECS (Minimalist List) -->
-    <section class="specs">
-      <h2 class="section-title">System Specs</h2>
-      <ul class="specs-list">
-        <li><span class="spec-label">CPU</span> <span class="spec-value">Ryzen 3 2200G</span></li>
-        <li><span class="spec-label">GPU</span> <span class="spec-value">Radeon Vega 8</span></li>
-        <li><span class="spec-label">RAM</span> <span class="spec-value">8GB DDR4</span></li>
-      </ul>
-    </section>
-
-    <!-- SOCIALS (Full-width interactive rows) -->
-    <section class="socials">
-      <a href="https://discord.com/users/YOUR_DISCORD_ID_HERE" target="_blank" rel="noopener" class="social-btn discord">
+    <!-- SOCIALS (Floating Circular Icons) -->
+    <div class="socials-row">
+      <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-btn" data-tooltip="Discord">
         <i class="fa-brands fa-discord"></i>
-        <span>mr_kaboom86</span>
-        <i class="fa-solid fa-arrow-right arrow-icon"></i>
       </a>
-      <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-btn github">
+      <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-btn" data-tooltip="GitHub">
         <i class="fa-brands fa-github"></i>
-        <span>Mrkaboom27</span>
-        <i class="fa-solid fa-arrow-right arrow-icon"></i>
       </a>
-    </section>
+    </div>
+
+    <!-- SPECS (Horizontal Pills) -->
+    <div class="specs-row">
+      <div class="spec-pill">
+        <i class="fa-solid fa-microchip"></i>
+        <span>Ryzen 3 2200G</span>
+      </div>
+      <div class="spec-pill">
+        <i class="fa-solid fa-display"></i>
+        <span>Vega 8</span>
+      </div>
+      <div class="spec-pill">
+        <i class="fa-solid fa-memory"></i>
+        <span>8GB DDR4</span>
+      </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="footer">
-      <span class="mono">&copy; 2026 Kaboom</span>
+      <span class="mono">© 2026 KABOOM</span>
     </footer>
 
   </main>
