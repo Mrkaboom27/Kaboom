@@ -33,7 +33,7 @@ themeToggle.addEventListener("click", () => {
 //   Discord Settings → Advanced → enable Developer Mode
 //   → right-click your profile → "Copy User ID"
 //
-const DISCORD_USER_ID = "1201125553864970300"; // <-- PASTE YOUR ID HERE
+const DISCORD_USER_ID = 1201125553864970300; // <-- PASTE YOUR ID HERE
 
 const presenceContainer = document.getElementById("presence-content");
 
