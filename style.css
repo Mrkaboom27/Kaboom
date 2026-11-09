@@ -1,0 +1,311 @@
+/* ===== COZY THEME VARIABLES ===== */
+:root {
+  /* Dark (night) — warm charcoal, not pure black */
+  --bg: #1a1614;
+  --surface: #241f1b;
+  --surface-hover: #2e2722;
+  --text-primary: #f5ede3;
+  --text-secondary: #b8a99a;
+  --accent: #d4a373;
+  --accent-soft: #b5835a;
+  --border: #3a302a;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+[data-theme="light"] {
+  /* Light (day) — warm cream, soft browns */
+  --bg: #faf6f0;
+  --surface: #fff9f2;
+  --surface-hover: #f5ede3;
+  --text-primary: #3d2c23;
+  --text-secondary: #7b6456;
+  --accent: #b5835a;
+  --accent-soft: #d4a373;
+  --border: #e8ddd0;
+  --shadow: rgba(61, 44, 35, 0.08);
+}
+
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.6;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  margin-bottom: 2.5rem;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* ===== THEME TOGGLE ===== */
+.theme-toggle {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  transform: scale(1.05);
+}
+
+.sun-icon,
+.moon-icon {
+  position: absolute;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+/* Dark mode: show sun (to switch to light) */
+[data-theme="dark"] .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+[data-theme="dark"] .moon-icon {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+/* Light mode: show moon (to switch to dark) */
+[data-theme="light"] .sun-icon {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+[data-theme="light"] .moon-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: background var(--transition), border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-title i {
+  color: var(--accent);
+}
+
+/* ===== NOW PLAYING ===== */
+.placeholder-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.now-playing-active {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.game-art {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--surface-hover);
+  flex-shrink: 0;
+}
+
+.game-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.game-info .game-details {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.game-info .game-state {
+  color: var(--accent-soft);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.discord-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f04747;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.discord-status-dot.online {
+  background: #43b581;
+}
+
+.discord-status-dot.idle {
+  background: #faa61a;
+}
+
+.discord-status-dot.dnd {
+  background: #f04747;
+}
+
+/* ===== PC SPECS ===== */
+.specs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.spec-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.spec-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.spec-value {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ===== SOCIALS ===== */
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.social-link:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.social-link i {
+  font-size: 1.25rem;
+  width: 24px;
+  text-align: center;
+}
+
+.social-link.discord i {
+  color: #5865f2;
+}
+
+.social-link.github i {
+  color: var(--text-primary);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  body {
+    padding: 2rem 1rem;
+  }
+
+  .name {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .now-playing-active {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

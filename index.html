@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@Kaboom</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+</head>
+<body>
+  <div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-top">
+        <h1 class="name">@Kaboom</h1>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun sun-icon"></i>
+          <i class="fa-solid fa-moon moon-icon"></i>
+        </button>
+      </div>
+      <p class="tagline">AI Dev · Gamer</p>
+    </header>
+
+    <!-- NOW PLAYING -->
+    <section class="card now-playing-card" id="now-playing">
+      <h2 class="card-title">
+        <i class="fa-solid fa-gamepad"></i> Currently Playing
+      </h2>
+      <div id="presence-content">
+        <p class="placeholder-text">Checking Discord presence…</p>
+      </div>
+    </section>
+
+    <!-- PC SPECS -->
+    <section class="card">
+      <h2 class="card-title">
+        <i class="fa-solid fa-desktop"></i> PC Specs
+      </h2>
+      <div class="specs-grid">
+        <div class="spec-item">
+          <span class="spec-label">CPU</span>
+          <span class="spec-value">Ryzen 3 2200G</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">GPU</span>
+          <span class="spec-value">Radeon Vega 8</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">RAM</span>
+          <span class="spec-value">8GB DDR4</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIALS -->
+    <section class="card">
+      <h2 class="card-title">
+        <i class="fa-solid fa-link"></i> Find Me
+      </h2>
+      <div class="socials">
+        <a
+          href="https://discord.com/users/1201125553864970300"
+          target="_blank"
+          rel="noopener"
+          class="social-link discord"
+          title="Discord: mr_kaboom86"
+        >
+          <i class="fa-brands fa-discord"></i>
+          <span>mr_kaboom86</span>
+        </a>
+        <a
+          href="https://github.com/Mrkaboom27"
+          target="_blank"
+          rel="noopener"
+          class="social-link github"
+          title="GitHub: Mrkaboom27"
+        >
+          <i class="fa-brands fa-github"></i>
+          <span>Mrkaboom27</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>Built with ☕ and too much free time.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
