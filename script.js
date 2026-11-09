@@ -23,7 +23,6 @@ themeToggle.addEventListener("click", () => {
 // ============================================================
 // 2. DISCORD PRESENCE (Lanyard API)
 // ============================================================
-// I have injected your User ID below:
 const DISCORD_USER_ID = "1201125553864970300"; 
 
 const presenceContainer = document.getElementById("presence-content");
@@ -40,24 +39,32 @@ function renderPresence(data) {
   const discordUser = data.discord_user;
   const activities = data.activities || [];
 
-  // Update the glowing avatar status dot
+  // Update the glowing avatar status dot (Red for DND, Green for Online, etc)
   statusIndicator.className = "status-indicator " + statusDotClass(data.discord_status);
 
-  // Look for an active game (type 0)
+  // 1. Look for a game (Type 0)
   const gameActivity = activities.find((a) => a.type === 0);
+  // 2. Look for a custom status (Type 4)
+  const customStatus = activities.find((a) => a.type === 4);
 
   if (!gameActivity) {
-    // Not playing a game
+    // They are NOT playing a game. Let's show their custom status if they have one.
+    let statusText = "";
+    if (customStatus && customStatus.state) {
+      statusText = `<strong>${discordUser.username}</strong> <span style="color: var(--accent); font-style: italic;">"${customStatus.state}"</span>`;
+    } else {
+      statusText = `<strong>${discordUser.username}</strong> is online, not gaming.`;
+    }
+
     presenceContainer.innerHTML = `
       <div class="presence-idle">
-        <span class="discord-status-dot ${statusDotClass(data.discord_status)}"></span>
-        <strong>${discordUser.username}</strong> is online, not gaming.
+        ${statusText}
       </div>
     `;
     return;
   }
 
-  // Extract game art
+  // --- If they ARE playing a game, extract the art ---
   let artUrl = "";
   if (gameActivity.assets?.large_image) {
     const img = gameActivity.assets.large_image;
@@ -91,7 +98,7 @@ function renderPresence(data) {
 function renderError() {
   presenceContainer.innerHTML = `
     <div class="presence-idle" style="color: #f04747;">
-      <i class="fa-solid fa-triangle-exclamation"></i> Failed to connect to Discord.
+      <i class="fa-solid fa-triangle-exclamation"></i> Connection error. Check script.js.
     </div>
   `;
 }
@@ -112,7 +119,6 @@ async function fetchPresence() {
   }
 }
 
-// Run immediately, then update every 30 seconds
 fetchPresence();
 setInterval(fetchPresence, 30000);
 
