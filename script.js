@@ -23,8 +23,8 @@ themeToggle.addEventListener("click", () => {
 // ============================================================
 // 2. DISCORD PRESENCE (Lanyard API)
 // ============================================================
-// REQUIRED: Paste your Discord User ID below.
-const DISCORD_USER_ID = "YOUR_DISCORD_ID"; // <-- PASTE YOUR ID HERE
+// I have injected your User ID below:
+const DISCORD_USER_ID = "1201125553864970300"; 
 
 const presenceContainer = document.getElementById("presence-content");
 const statusIndicator = document.getElementById("discord-status-indicator");
@@ -40,20 +40,24 @@ function renderPresence(data) {
   const discordUser = data.discord_user;
   const activities = data.activities || [];
 
-  // Update the avatar status dot
+  // Update the glowing avatar status dot
   statusIndicator.className = "status-indicator " + statusDotClass(data.discord_status);
 
+  // Look for an active game (type 0)
   const gameActivity = activities.find((a) => a.type === 0);
 
   if (!gameActivity) {
+    // Not playing a game
     presenceContainer.innerHTML = `
-      <p class="placeholder-text">
-        Not playing anything right now.
-      </p>
+      <div class="presence-idle">
+        <span class="discord-status-dot ${statusDotClass(data.discord_status)}"></span>
+        <strong>${discordUser.username}</strong> is online, not gaming.
+      </div>
     `;
     return;
   }
 
+  // Extract game art
   let artUrl = "";
   if (gameActivity.assets?.large_image) {
     const img = gameActivity.assets.large_image;
@@ -85,15 +89,14 @@ function renderPresence(data) {
 }
 
 function renderError() {
-  presenceContainer.innerHTML = `<p class="placeholder-text">Could not load Discord presence.</p>`;
+  presenceContainer.innerHTML = `
+    <div class="presence-idle" style="color: #f04747;">
+      <i class="fa-solid fa-triangle-exclamation"></i> Failed to connect to Discord.
+    </div>
+  `;
 }
 
 async function fetchPresence() {
-  if (DISCORD_USER_ID === 1201125553864970300) {
-    presenceContainer.innerHTML = `<p class="placeholder-text">Add your Discord ID to script.js</p>`;
-    return;
-  }
-
   try {
     const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
     if (!res.ok) throw new Error("Lanyard request failed");
@@ -109,6 +112,7 @@ async function fetchPresence() {
   }
 }
 
+// Run immediately, then update every 30 seconds
 fetchPresence();
 setInterval(fetchPresence, 30000);
 
