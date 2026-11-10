@@ -282,3 +282,62 @@ body {
   .name { font-size: 1.4rem; }
   .ai-grid { grid-template-columns: 1fr; }
 }
+
+/* ===== PLAYGROUND TAB (Replacing AI Stack) ===== */
+.play-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.8rem;
+  position: relative;
+}
+
+.play-card h3 {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.play-card p {
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-height: 22px;
+}
+
+.action-btn {
+  background: var(--accent-gradient);
+  border: none;
+  color: #000;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+[data-theme="dark"] .action-btn, [data-theme="ocean"] .action-btn {
+  color: #fff;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
