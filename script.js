@@ -4,7 +4,6 @@
 const cursorDot = document.querySelector(".cursor-dot");
 const cursorOutline = document.querySelector(".cursor-outline");
 
-// Check if device has a mouse (pointer: fine)
 if (window.matchMedia("(pointer: fine)").matches) {
   let mouseX = 0, mouseY = 0;
   let outlineX = 0, outlineY = 0;
@@ -12,28 +11,26 @@ if (window.matchMedia("(pointer: fine)").matches) {
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    
-    // Move dot instantly
     cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
   });
 
-  // Smooth trailing effect for outline
   function animateCursor() {
-    // Lerp (Linear Interpolation) for smooth follow
     outlineX += (mouseX - outlineX) * 0.15;
     outlineY += (mouseY - outlineY) * 0.15;
-    
     cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
 
-  // Add hover effect to interactive elements
-  const interactives = document.querySelectorAll(".interactive, a, button");
-  interactives.forEach((el) => {
-    el.addEventListener("mouseenter", () => cursorOutline.classList.add("hover"));
-    el.addEventListener("mouseleave", () => cursorOutline.classList.remove("hover"));
-  });
+  // Re-bind hover effect for elements, including new playground buttons
+  function bindCursorHovers() {
+    const interactives = document.querySelectorAll(".interactive, a, button, .action-btn");
+    interactives.forEach((el) => {
+      el.addEventListener("mouseenter", () => cursorOutline.classList.add("hover"));
+      el.addEventListener("mouseleave", () => cursorOutline.classList.remove("hover"));
+    });
+  }
+  bindCursorHovers();
 }
 
 // ============================================================
@@ -44,7 +41,6 @@ const html = document.documentElement;
 const themes = ["dark", "translucent", "light", "cyberpunk", "ocean", "sunset"];
 let currentThemeIndex = 0;
 
-// Load saved theme
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme && themes.includes(savedTheme)) {
   html.setAttribute("data-theme", savedTheme);
@@ -53,14 +49,12 @@ if (savedTheme && themes.includes(savedTheme)) {
   html.setAttribute("data-theme", "dark");
 }
 
-// Cycle themes on click
 themeToggle.addEventListener("click", () => {
   currentThemeIndex = (currentThemeIndex + 1) % themes.length;
   const newTheme = themes[currentThemeIndex];
   html.setAttribute("data-theme", newTheme);
   localStorage.setItem("theme", newTheme);
   
-  // Add a little spin animation to the button
   themeToggle.style.transform = "scale(1.2) rotate(180deg)";
   setTimeout(() => themeToggle.style.transform = "scale(1) rotate(0deg)", 300);
 });
@@ -98,7 +92,7 @@ tabBtns.forEach(btn => {
 });
 
 // ============================================================
-// 5. SPOTLIGHT TRACKING
+// 5. SPOTLIGHT TRACKING & CLOCK
 // ============================================================
 const card = document.getElementById("spotlight-card");
 card.addEventListener("mousemove", (e) => {
@@ -107,9 +101,6 @@ card.addEventListener("mousemove", (e) => {
   card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
 });
 
-// ============================================================
-// 6. LIVE CLOCK
-// ============================================================
 function updateClock() {
   const now = new Date();
   document.getElementById("live-clock").textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -118,7 +109,85 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // ============================================================
-// 7. MUSIC PLAYER
+// 6. PLAYGROUND: FEED THE AI CLICKER
+// ============================================================
+let feedCount = parseInt(localStorage.getItem("feedCount")) || 0;
+const feedBtn = document.getElementById("feed-btn");
+const feedText = document.getElementById("feed-text");
+const feedMessages = ["Yum!", "More!", "I'm full...", "Need water...", "Delicious!", "Keep going!", "Nom nom."];
+
+// Initial text
+if (feedCount > 0) feedText.textContent = `Total meals: ${feedCount}`;
+
+feedBtn.addEventListener("click", () => {
+  feedCount++;
+  localStorage.setItem("feedCount", feedCount);
+  feedText.textContent = feedMessages[Math.floor(Math.random() * feedMessages.length)] + ` (Total: ${feedCount})`;
+  
+  // Pop animation
+  feedBtn.style.transform = "scale(1.2)";
+  setTimeout(() => feedBtn.style.transform = "scale(1)", 150);
+});
+
+// ============================================================
+// 7. PLAYGROUND: FORTUNE COOKIE
+// ============================================================
+const fortuneBtn = document.getElementById("fortune-btn");
+const fortuneText = document.getElementById("fortune-text");
+const fortunes = [
+  "You will write a bug-free line of code today.",
+  "Your GPU will not overheat. Probably.",
+  "A wild 404 appears. It is super effective.",
+  "You will find a typo in production.",
+  "AI is coming for your job. Just kidding... maybe.",
+  "Retro Hub will hit 1000 players soon.",
+  "Your next commit will be massive.",
+  "Someone will copy your code and call it their own.",
+  "Your PC will boot on the first try."
+];
+
+fortuneBtn.addEventListener("click", () => {
+  fortuneText.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+});
+
+// ============================================================
+// 8. PLAYGROUND: BOUNCING DVD LOGO
+// ============================================================
+const bouncer = document.getElementById("bouncer");
+let x = 10, y = 20;
+let dx = 1.5, dy = 1.5;
+const container = bouncer.parentElement;
+
+function animateBounce() {
+  // Only animate if the playground tab is visible
+  if (!document.getElementById("playground").classList.contains("active")) {
+    requestAnimationFrame(animateBounce);
+    return;
+  }
+
+  const maxX = container.clientWidth - bouncer.clientWidth;
+  const maxY = container.clientHeight - bouncer.clientHeight;
+
+  x += dx;
+  y += dy;
+
+  // Bounce off walls
+  if (x >= maxX || x <= 0) {
+    dx = -dx;
+    bouncer.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`; // Change color on bounce
+  }
+  if (y >= maxY || y <= 0) {
+    dy = -dy;
+    bouncer.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+  }
+
+  bouncer.style.transform = `translate(${x}px, ${y}px)`;
+  requestAnimationFrame(animateBounce);
+}
+animateBounce();
+
+// ============================================================
+// 9. MUSIC PLAYER
 // ============================================================
 const audio = document.getElementById("audio-player");
 const playBtn = document.getElementById("play-pause-btn");
@@ -146,7 +215,7 @@ audio.addEventListener("ended", () => {
 });
 
 // ============================================================
-// 8. DISCORD PRESENCE
+// 10. DISCORD PRESENCE
 // ============================================================
 const DISCORD_USER_ID = "1201125553864970300"; 
 const presenceContainer = document.getElementById("presence-content");
@@ -164,7 +233,6 @@ function renderPresence(data) {
   const activities = data.activities || [];
   statusIndicator.className = "status-dot " + statusDotClass(data.discord_status);
 
-  // Spotify
   if (data.listening_to_spotify && data.spotify) {
     const track = data.spotify.track_name;
     const artist = data.spotify.artist;
@@ -204,7 +272,6 @@ function renderPresence(data) {
     return;
   }
 
-  // Games
   const gameActivity = activities.find((a) => a.type === 0);
   const customStatus = activities.find((a) => a.type === 4);
 
