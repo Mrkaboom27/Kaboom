@@ -31,10 +31,9 @@ function typeWriter() {
   if (i < typewriterText.length) {
     typewriterElement.innerHTML += typewriterText.charAt(i);
     i++;
-    setTimeout(typeWriter, 70); // Speed of typing
+    setTimeout(typeWriter, 70);
   }
 }
-// Start typing after a short delay
 setTimeout(typeWriter, 500);
 
 // ============================================================
@@ -45,21 +44,16 @@ const tabContents = document.querySelectorAll(".tab-content");
 
 tabBtns.forEach(btn => {
   btn.addEventListener("click", () => {
-    // Remove active class from all buttons and contents
     tabBtns.forEach(b => b.classList.remove("active"));
     tabContents.forEach(c => c.classList.remove("active"));
-
-    // Add active class to clicked button
     btn.classList.add("active");
-
-    // Show corresponding content
     const targetId = btn.getAttribute("data-target");
     document.getElementById(targetId).classList.add("active");
   });
 });
 
 // ============================================================
-// 4. SPOTLIGHT MOUSE TRACKING
+// 4. SPOTLIGHT TRACKING
 // ============================================================
 const card = document.getElementById("spotlight-card");
 card.addEventListener("mousemove", (e) => {
@@ -73,18 +67,41 @@ card.addEventListener("mousemove", (e) => {
 // ============================================================
 function updateClock() {
   const now = new Date();
-  const timeString = now.toLocaleTimeString('en-US', { 
-    hour: '2-digit', 
-    minute: '2-digit', 
-    second: '2-digit' 
-  });
-  document.getElementById("live-clock").textContent = timeString;
+  document.getElementById("live-clock").textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 setInterval(updateClock, 1000);
 updateClock();
 
 // ============================================================
-// 6. DISCORD PRESENCE (Lanyard API - Handles Games & Spotify)
+// 6. MUSIC PLAYER LOGIC
+// ============================================================
+const audio = document.getElementById("audio-player");
+const playBtn = document.getElementById("play-pause-btn");
+const playIcon = playBtn.querySelector("i");
+const progressBar = document.getElementById("progress-bar");
+
+playBtn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    playIcon.classList.replace("fa-play", "fa-pause");
+  } else {
+    audio.pause();
+    playIcon.classList.replace("fa-pause", "fa-play");
+  }
+});
+
+audio.addEventListener("timeupdate", () => {
+  const percent = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = percent + "%";
+});
+
+audio.addEventListener("ended", () => {
+  playIcon.classList.replace("fa-pause", "fa-play");
+  progressBar.style.width = "0%";
+});
+
+// ============================================================
+// 7. DISCORD PRESENCE (Handles Games & Spotify Progress)
 // ============================================================
 const DISCORD_USER_ID = "1201125553864970300"; 
 const presenceContainer = document.getElementById("presence-content");
@@ -101,14 +118,22 @@ function renderPresence(data) {
   const discordUser = data.discord_user;
   const activities = data.activities || [];
 
-  // Update status dot
   statusIndicator.className = "status-dot " + statusDotClass(data.discord_status);
 
-  // Check for Spotify FIRST
+  // SPOTIFY CHECK
   if (data.listening_to_spotify && data.spotify) {
     const track = data.spotify.track_name;
     const artist = data.spotify.artist;
     const albumArt = data.spotify.album_art_url;
+    const start = data.spotify.timestamps.start;
+    const end = data.spotify.timestamps.end;
+    const duration = end - start;
+    
+    // Calculate initial progress
+    const now = Date.now();
+    let progressPercent = ((now - start) / duration) * 100;
+    if (progressPercent > 100) progressPercent = 100;
+    if (progressPercent < 0) progressPercent = 0;
 
     presenceContainer.className = "presence-box spotify-status";
     presenceContainer.innerHTML = `
@@ -117,13 +142,27 @@ function renderPresence(data) {
         <div class="game-text">
           <h4>Listening to Spotify</h4>
           <p>${track} • ${artist}</p>
+          <div class="spotify-progress-container">
+            <div class="spotify-progress" id="spotify-bar" style="width: ${progressPercent}%;"></div>
+          </div>
         </div>
       </div>
     `;
+
+    // Animate the Spotify progress bar
+    const spotifyBar = document.getElementById("spotify-bar");
+    if (spotifyBar) {
+      const interval = setInterval(() => {
+        const current = Date.now();
+        let percent = ((current - start) / duration) * 100;
+        if (percent > 100) { percent = 100; clearInterval(interval); }
+        spotifyBar.style.width = percent + "%";
+      }, 1000);
+    }
     return;
   }
 
-  // Then check for Games
+  // GAME CHECK
   const gameActivity = activities.find((a) => a.type === 0);
   const customStatus = activities.find((a) => a.type === 4);
 
@@ -131,7 +170,7 @@ function renderPresence(data) {
     presenceContainer.className = "presence-box";
     let statusText = "";
     if (customStatus && customStatus.state) {
-      statusText = `<div class="game-text"><h4>${discordUser.username}</h4><p class="custom-status">"${customStatus.state}"</p></div>`;
+      statusText = `<div class="game-text"><h4>${discordUser.username}</h4><p style="color: var(--accent-1); font-style: italic;">"${customStatus.state}"</p></div>`;
     } else {
       statusText = `<div class="game-text"><h4>${discordUser.username}</h4><p>Not playing a game</p></div>`;
     }
@@ -139,7 +178,6 @@ function renderPresence(data) {
     return;
   }
 
-  // If playing a game
   let artUrl = "";
   if (gameActivity.assets?.large_image) {
     const img = gameActivity.assets.large_image;
@@ -166,7 +204,7 @@ function renderPresence(data) {
 }
 
 function renderError() {
-  presenceContainer.innerHTML = `<div class="game-text" style="text-align:center; color: #f23f43; font-size: 0.85rem;">Connection failed. Check Lanyard.</div>`;
+  presenceContainer.innerHTML = `<div class="game-text" style="text-align:center; color: #f23f43; font-size: 0.85rem;">Lanyard connection failed.</div>`;
 }
 
 async function fetchPresence() {
@@ -186,4 +224,4 @@ async function fetchPresence() {
 }
 
 fetchPresence();
-setInterval(fetchPresence, 15000); // Refresh every 15s for faster Spotify updates
+setInterval(fetchPresence, 15000);
