@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@Kaboom</title>
 
-  <!-- Premium Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -13,18 +13,22 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
   <!-- Animated Mesh Background -->
   <div class="mesh-bg"></div>
 
   <!-- Main Card -->
   <main class="card" id="spotlight-card">
     
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <i class="fa-solid fa-moon"></i>
+    <!-- Theme Toggle (Now a palette icon) -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cycle themes">
+      <i class="fa-solid fa-palette"></i>
     </button>
 
     <!-- PROFILE HEADER -->
@@ -35,7 +39,7 @@
         <span class="status-dot" id="discord-status-indicator"></span>
       </div>
       <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified"></i></h1>
-      <p class="tagline"><span id="typewriter"></span><span class="cursor">|</span></p>
+      <p class="tagline"><span id="typewriter"></span><span class="cursor-blink">|</span></p>
     </div>
 
     <!-- TABS NAVIGATION -->
@@ -48,18 +52,16 @@
 
     <!-- TAB CONTENT: HOME -->
     <div class="tab-content active" id="home">
-      <!-- Discord Presence -->
       <div class="presence-box" id="presence-content">
         <div class="loading-presence"><span class="spinner"></span> Syncing...</div>
       </div>
 
-      <!-- Social Links -->
       <div class="links-container">
-        <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row">
+        <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row interactive">
           <div class="social-left"><i class="fa-brands fa-discord"></i><span>Discord</span></div>
           <i class="fa-solid fa-arrow-right arrow"></i>
         </a>
-        <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row">
+        <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row interactive">
           <div class="social-left"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
           <i class="fa-solid fa-arrow-right arrow"></i>
         </a>
@@ -69,15 +71,15 @@
     <!-- TAB CONTENT: SETUP -->
     <div class="tab-content" id="setup">
       <div class="specs-list">
-        <div class="spec-row">
+        <div class="spec-row interactive">
           <div class="spec-icon"><i class="fa-solid fa-microchip"></i></div>
           <div class="spec-info"><span class="spec-label">CPU</span><span class="spec-val">Ryzen 3 2200G</span></div>
         </div>
-        <div class="spec-row">
+        <div class="spec-row interactive">
           <div class="spec-icon"><i class="fa-solid fa-display"></i></div>
           <div class="spec-info"><span class="spec-label">GPU</span><span class="spec-val">Radeon Vega 8</span></div>
         </div>
-        <div class="spec-row">
+        <div class="spec-row interactive">
           <div class="spec-icon"><i class="fa-solid fa-memory"></i></div>
           <div class="spec-info"><span class="spec-label">RAM</span><span class="spec-val">8GB DDR4</span></div>
         </div>
@@ -86,7 +88,7 @@
 
     <!-- TAB CONTENT: PROJECTS -->
     <div class="tab-content" id="projects">
-      <a href="https://retro-hub-7vx.pages.dev/" target="_blank" rel="noopener" class="project-card">
+      <a href="https://retro-hub-7vx.pages.dev/" target="_blank" rel="noopener" class="project-card interactive">
         <div class="project-icon"><i class="fa-solid fa-gamepad"></i></div>
         <div class="project-info">
           <h3>Retro Hub</h3>
@@ -99,15 +101,15 @@
     <!-- TAB CONTENT: AI STACK -->
     <div class="tab-content" id="ai">
       <div class="ai-grid">
-        <div class="ai-card"><i class="fa-solid fa-comment-dots"></i><span>ChatGPT</span></div>
-        <div class="ai-card"><i class="fa-solid fa-brain"></i><span>Claude</span></div>
-        <div class="ai-card"><i class="fa-solid fa-code"></i><span>Cursor</span></div>
-        <div class="ai-card"><i class="fa-solid fa-image"></i><span>Midjourney</span></div>
+        <div class="ai-card interactive"><i class="fa-solid fa-comment-dots"></i><span>ChatGPT</span></div>
+        <div class="ai-card interactive"><i class="fa-solid fa-brain"></i><span>Claude</span></div>
+        <div class="ai-card interactive"><i class="fa-solid fa-code"></i><span>Cursor</span></div>
+        <div class="ai-card interactive"><i class="fa-solid fa-image"></i><span>Midjourney</span></div>
       </div>
     </div>
 
-    <!-- MUSIC PLAYER (Always visible) -->
-    <div class="music-player">
+    <!-- MUSIC PLAYER -->
+    <div class="music-player interactive">
       <div class="player-info">
         <div class="player-art"><i class="fa-solid fa-music"></i></div>
         <div class="player-text">
@@ -117,7 +119,7 @@
       </div>
       <audio id="audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
       <div class="player-controls">
-        <button id="play-pause-btn" class="play-btn"><i class="fa-solid fa-play"></i></button>
+        <button id="play-pause-btn" class="play-btn interactive"><i class="fa-solid fa-play"></i></button>
       </div>
       <div class="player-progress">
         <div class="progress-bar" id="progress-bar"></div>
