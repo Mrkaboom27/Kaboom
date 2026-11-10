@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@Kaboom</title>
 
-  <!-- Premium Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -28,60 +28,88 @@
       <i class="fa-solid fa-moon"></i>
     </button>
 
+    <!-- PROFILE HEADER -->
     <div class="profile-header">
-      <!-- AVATAR -->
       <div class="avatar-container">
         <div class="avatar-ring"></div>
-        <!-- Replace with your actual PFP if you want to change it later -->
         <img src="https://cdn.discordapp.com/avatars/1201125553864970300/775dd6a2fa2df319e03bf32b697cab08.png" alt="Avatar" class="avatar">
         <span class="status-dot" id="discord-status-indicator"></span>
       </div>
-
-      <!-- IDENTITY -->
       <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified"></i></h1>
-      <p class="tagline">AI Dev <span class="dot">•</span> Gamer</p>
+      <!-- Typewriter Effect -->
+      <p class="tagline"><span id="typewriter"></span><span class="cursor">|</span></p>
     </div>
 
-    <!-- DISCORD PRESENCE -->
-    <div class="presence-box" id="presence-content">
-      <div class="loading-presence">
-        <span class="spinner"></span> Syncing Lanyard...
+    <!-- TABS NAVIGATION -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-target="home"><i class="fa-solid fa-house"></i> Home</button>
+      <button class="tab-btn" data-target="setup"><i class="fa-solid fa-desktop"></i> Setup</button>
+      <button class="tab-btn" data-target="ai"><i class="fa-solid fa-robot"></i> AI Stack</button>
+    </div>
+
+    <!-- TAB CONTENT: HOME -->
+    <div class="tab-content active" id="home">
+      <!-- Discord Presence -->
+      <div class="presence-box" id="presence-content">
+        <div class="loading-presence"><span class="spinner"></span> Syncing...</div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="links-container">
+        <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row">
+          <div class="social-left"><i class="fa-brands fa-discord"></i><span>Discord</span></div>
+          <i class="fa-solid fa-arrow-right arrow"></i>
+        </a>
+        <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row">
+          <div class="social-left"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
+          <i class="fa-solid fa-arrow-right arrow"></i>
+        </a>
       </div>
     </div>
 
-    <!-- SOCIAL LINKS (guns.lol style) -->
-    <div class="links-container">
-      <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row">
-        <div class="social-left">
-          <i class="fa-brands fa-discord"></i>
-          <span>Discord</span>
+    <!-- TAB CONTENT: SETUP -->
+    <div class="tab-content" id="setup">
+      <div class="specs-list">
+        <div class="spec-row">
+          <div class="spec-icon"><i class="fa-solid fa-microchip"></i></div>
+          <div class="spec-info"><span class="spec-label">CPU</span><span class="spec-val">Ryzen 3 2200G</span></div>
         </div>
-        <i class="fa-solid fa-arrow-right arrow"></i>
-      </a>
-      
-      <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row">
-        <div class="social-left">
-          <i class="fa-brands fa-github"></i>
-          <span>GitHub</span>
+        <div class="spec-row">
+          <div class="spec-icon"><i class="fa-solid fa-display"></i></div>
+          <div class="spec-info"><span class="spec-label">GPU</span><span class="spec-val">Radeon Vega 8</span></div>
         </div>
-        <i class="fa-solid fa-arrow-right arrow"></i>
-      </a>
+        <div class="spec-row">
+          <div class="spec-icon"><i class="fa-solid fa-memory"></i></div>
+          <div class="spec-info"><span class="spec-label">RAM</span><span class="spec-val">8GB DDR4</span></div>
+        </div>
+      </div>
     </div>
 
-    <!-- PC SPECS -->
-    <div class="specs-container">
-      <div class="spec-item">
-        <i class="fa-solid fa-microchip"></i>
-        <span>Ryzen 3 2200G</span>
+    <!-- TAB CONTENT: AI STACK -->
+    <div class="tab-content" id="ai">
+      <div class="ai-grid">
+        <div class="ai-card">
+          <i class="fa-solid fa-comment-dots"></i>
+          <span>ChatGPT</span>
+        </div>
+        <div class="ai-card">
+          <i class="fa-solid fa-brain"></i>
+          <span>Claude</span>
+        </div>
+        <div class="ai-card">
+          <i class="fa-solid fa-code"></i>
+          <span>Cursor</span>
+        </div>
+        <div class="ai-card">
+          <i class="fa-solid fa-image"></i>
+          <span>Midjourney</span>
+        </div>
       </div>
-      <div class="spec-item">
-        <i class="fa-solid fa-display"></i>
-        <span>Vega 8</span>
-      </div>
-      <div class="spec-item">
-        <i class="fa-solid fa-memory"></i>
-        <span>8GB RAM</span>
-      </div>
+    </div>
+
+    <!-- FOOTER / LIVE CLOCK -->
+    <div class="footer">
+      <span id="live-clock">00:00:00 AM</span>
     </div>
 
   </main>
