@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@Kaboom</title>
 
-  <!-- Fonts -->
+  <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -17,11 +17,10 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <!-- Animated Background Blobs -->
-  <div class="bg-blob blob-1"></div>
-  <div class="bg-blob blob-2"></div>
+  <!-- Animated Mesh Background -->
+  <div class="mesh-bg"></div>
 
-  <!-- Main Spotlight Card -->
+  <!-- Main Card -->
   <main class="card" id="spotlight-card">
     
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
@@ -36,15 +35,15 @@
         <span class="status-dot" id="discord-status-indicator"></span>
       </div>
       <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified"></i></h1>
-      <!-- Typewriter Effect -->
       <p class="tagline"><span id="typewriter"></span><span class="cursor">|</span></p>
     </div>
 
     <!-- TABS NAVIGATION -->
     <div class="tabs-nav">
-      <button class="tab-btn active" data-target="home"><i class="fa-solid fa-house"></i> Home</button>
-      <button class="tab-btn" data-target="setup"><i class="fa-solid fa-desktop"></i> Setup</button>
-      <button class="tab-btn" data-target="ai"><i class="fa-solid fa-robot"></i> AI Stack</button>
+      <button class="tab-btn active" data-target="home"><i class="fa-solid fa-house"></i></button>
+      <button class="tab-btn" data-target="setup"><i class="fa-solid fa-desktop"></i></button>
+      <button class="tab-btn" data-target="projects"><i class="fa-solid fa-rocket"></i></button>
+      <button class="tab-btn" data-target="ai"><i class="fa-solid fa-robot"></i></button>
     </div>
 
     <!-- TAB CONTENT: HOME -->
@@ -85,25 +84,43 @@
       </div>
     </div>
 
+    <!-- TAB CONTENT: PROJECTS -->
+    <div class="tab-content" id="projects">
+      <a href="https://retro-hub-7vx.pages.dev/" target="_blank" rel="noopener" class="project-card">
+        <div class="project-icon"><i class="fa-solid fa-gamepad"></i></div>
+        <div class="project-info">
+          <h3>Retro Hub</h3>
+          <p>A full AI-built arcade with mini-games, chat, and progression.</p>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square project-arrow"></i>
+      </a>
+    </div>
+
     <!-- TAB CONTENT: AI STACK -->
     <div class="tab-content" id="ai">
       <div class="ai-grid">
-        <div class="ai-card">
-          <i class="fa-solid fa-comment-dots"></i>
-          <span>ChatGPT</span>
+        <div class="ai-card"><i class="fa-solid fa-comment-dots"></i><span>ChatGPT</span></div>
+        <div class="ai-card"><i class="fa-solid fa-brain"></i><span>Claude</span></div>
+        <div class="ai-card"><i class="fa-solid fa-code"></i><span>Cursor</span></div>
+        <div class="ai-card"><i class="fa-solid fa-image"></i><span>Midjourney</span></div>
+      </div>
+    </div>
+
+    <!-- MUSIC PLAYER (Always visible) -->
+    <div class="music-player">
+      <div class="player-info">
+        <div class="player-art"><i class="fa-solid fa-music"></i></div>
+        <div class="player-text">
+          <span class="player-title">Lofi Beat</span>
+          <span class="player-artist">Kaboom</span>
         </div>
-        <div class="ai-card">
-          <i class="fa-solid fa-brain"></i>
-          <span>Claude</span>
-        </div>
-        <div class="ai-card">
-          <i class="fa-solid fa-code"></i>
-          <span>Cursor</span>
-        </div>
-        <div class="ai-card">
-          <i class="fa-solid fa-image"></i>
-          <span>Midjourney</span>
-        </div>
+      </div>
+      <audio id="audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+      <div class="player-controls">
+        <button id="play-pause-btn" class="play-btn"><i class="fa-solid fa-play"></i></button>
+      </div>
+      <div class="player-progress">
+        <div class="progress-bar" id="progress-bar"></div>
       </div>
     </div>
 
