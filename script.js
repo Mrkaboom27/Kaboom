@@ -1,27 +1,72 @@
 // ============================================================
-// 1. THEME TOGGLE
+// 1. CUSTOM CURSOR LOGIC
+// ============================================================
+const cursorDot = document.querySelector(".cursor-dot");
+const cursorOutline = document.querySelector(".cursor-outline");
+
+// Check if device has a mouse (pointer: fine)
+if (window.matchMedia("(pointer: fine)").matches) {
+  let mouseX = 0, mouseY = 0;
+  let outlineX = 0, outlineY = 0;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Move dot instantly
+    cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+  });
+
+  // Smooth trailing effect for outline
+  function animateCursor() {
+    // Lerp (Linear Interpolation) for smooth follow
+    outlineX += (mouseX - outlineX) * 0.15;
+    outlineY += (mouseY - outlineY) * 0.15;
+    
+    cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Add hover effect to interactive elements
+  const interactives = document.querySelectorAll(".interactive, a, button");
+  interactives.forEach((el) => {
+    el.addEventListener("mouseenter", () => cursorOutline.classList.add("hover"));
+    el.addEventListener("mouseleave", () => cursorOutline.classList.remove("hover"));
+  });
+}
+
+// ============================================================
+// 2. MULTI-THEME ENGINE
 // ============================================================
 const themeToggle = document.getElementById("theme-toggle");
 const html = document.documentElement;
+const themes = ["dark", "translucent", "light", "cyberpunk", "ocean", "sunset"];
+let currentThemeIndex = 0;
 
+// Load saved theme
 const savedTheme = localStorage.getItem("theme");
-const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-if (savedTheme) {
+if (savedTheme && themes.includes(savedTheme)) {
   html.setAttribute("data-theme", savedTheme);
+  currentThemeIndex = themes.indexOf(savedTheme);
 } else {
-  html.setAttribute("data-theme", systemPrefersDark ? "dark" : "light");
+  html.setAttribute("data-theme", "dark");
 }
 
+// Cycle themes on click
 themeToggle.addEventListener("click", () => {
-  const current = html.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
+  currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+  const newTheme = themes[currentThemeIndex];
+  html.setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
+  
+  // Add a little spin animation to the button
+  themeToggle.style.transform = "scale(1.2) rotate(180deg)";
+  setTimeout(() => themeToggle.style.transform = "scale(1) rotate(0deg)", 300);
 });
 
 // ============================================================
-// 2. TYPEWRITER EFFECT
+// 3. TYPEWRITER EFFECT
 // ============================================================
 const typewriterText = "I Make Everything With AI :))";
 const typewriterElement = document.getElementById("typewriter");
@@ -37,7 +82,7 @@ function typeWriter() {
 setTimeout(typeWriter, 500);
 
 // ============================================================
-// 3. TABS LOGIC
+// 4. TABS LOGIC
 // ============================================================
 const tabBtns = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
@@ -53,7 +98,7 @@ tabBtns.forEach(btn => {
 });
 
 // ============================================================
-// 4. SPOTLIGHT TRACKING
+// 5. SPOTLIGHT TRACKING
 // ============================================================
 const card = document.getElementById("spotlight-card");
 card.addEventListener("mousemove", (e) => {
@@ -63,7 +108,7 @@ card.addEventListener("mousemove", (e) => {
 });
 
 // ============================================================
-// 5. LIVE CLOCK
+// 6. LIVE CLOCK
 // ============================================================
 function updateClock() {
   const now = new Date();
@@ -73,7 +118,7 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // ============================================================
-// 6. MUSIC PLAYER LOGIC
+// 7. MUSIC PLAYER
 // ============================================================
 const audio = document.getElementById("audio-player");
 const playBtn = document.getElementById("play-pause-btn");
@@ -101,7 +146,7 @@ audio.addEventListener("ended", () => {
 });
 
 // ============================================================
-// 7. DISCORD PRESENCE (Handles Games & Spotify Progress)
+// 8. DISCORD PRESENCE
 // ============================================================
 const DISCORD_USER_ID = "1201125553864970300"; 
 const presenceContainer = document.getElementById("presence-content");
@@ -117,10 +162,9 @@ function statusDotClass(status) {
 function renderPresence(data) {
   const discordUser = data.discord_user;
   const activities = data.activities || [];
-
   statusIndicator.className = "status-dot " + statusDotClass(data.discord_status);
 
-  // SPOTIFY CHECK
+  // Spotify
   if (data.listening_to_spotify && data.spotify) {
     const track = data.spotify.track_name;
     const artist = data.spotify.artist;
@@ -129,7 +173,6 @@ function renderPresence(data) {
     const end = data.spotify.timestamps.end;
     const duration = end - start;
     
-    // Calculate initial progress
     const now = Date.now();
     let progressPercent = ((now - start) / duration) * 100;
     if (progressPercent > 100) progressPercent = 100;
@@ -149,7 +192,6 @@ function renderPresence(data) {
       </div>
     `;
 
-    // Animate the Spotify progress bar
     const spotifyBar = document.getElementById("spotify-bar");
     if (spotifyBar) {
       const interval = setInterval(() => {
@@ -162,7 +204,7 @@ function renderPresence(data) {
     return;
   }
 
-  // GAME CHECK
+  // Games
   const gameActivity = activities.find((a) => a.type === 0);
   const customStatus = activities.find((a) => a.type === 4);
 
@@ -212,12 +254,8 @@ async function fetchPresence() {
     const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
     if (!res.ok) throw new Error("Lanyard request failed");
     const json = await res.json();
-
-    if (json.success && json.data) {
-      renderPresence(json.data);
-    } else {
-      renderError();
-    }
+    if (json.success && json.data) renderPresence(json.data);
+    else renderError();
   } catch (err) {
     renderError();
   }
