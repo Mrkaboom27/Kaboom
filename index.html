@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@Kaboom</title>
 
-  <!-- Fonts -->
+  <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -17,69 +17,72 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <!-- Animated Background Grid -->
-  <div class="bg-grid"></div>
-  
-  <!-- Theme Toggle (Floating top right) -->
-  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-    <i class="fa-solid fa-moon"></i>
-  </button>
+  <!-- Animated Background Blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
 
-  <main class="profile-container">
+  <!-- Main Spotlight Card -->
+  <main class="card" id="spotlight-card">
     
-    <!-- AVATAR WITH SPINNING GLOW RING -->
-    <div class="avatar-wrapper">
-      <div class="avatar-glow"></div>
-      <!-- Replace the URL below with your own image if you want -->
-      <img src="https://cdn.discordapp.com/avatars/1201125553864970300/775dd6a2fa2df319e03bf32b697cab08.png" alt="Avatar" class="avatar" id="avatar">
-      <span class="status-indicator" id="discord-status-indicator"></span>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+
+    <div class="profile-header">
+      <!-- AVATAR -->
+      <div class="avatar-container">
+        <div class="avatar-ring"></div>
+        <!-- Replace with your actual PFP if you want to change it later -->
+        <img src="https://cdn.discordapp.com/avatars/1201125553864970300/775dd6a2fa2df319e03bf32b697cab08.png" alt="Avatar" class="avatar">
+        <span class="status-dot" id="discord-status-indicator"></span>
+      </div>
+
+      <!-- IDENTITY -->
+      <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified"></i></h1>
+      <p class="tagline">AI Dev <span class="dot">•</span> Gamer</p>
     </div>
 
-    <!-- IDENTITY -->
-    <div class="identity">
-      <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified-badge"></i></h1>
-      <p class="tagline"><span class="mono">AI Dev</span> <span class="divider">/</span> <span class="mono">Gamer</span></p>
-    </div>
-
-    <!-- DYNAMIC DISCORD STATUS -->
-    <div class="presence-widget" id="now-playing-card">
-      <div id="presence-content">
-        <div class="presence-loading">
-          <span class="spinner"></span> Syncing Discord...
-        </div>
+    <!-- DISCORD PRESENCE -->
+    <div class="presence-box" id="presence-content">
+      <div class="loading-presence">
+        <span class="spinner"></span> Syncing Lanyard...
       </div>
     </div>
 
-    <!-- SOCIALS (Floating Circular Icons) -->
-    <div class="socials-row">
-      <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-btn" data-tooltip="Discord">
-        <i class="fa-brands fa-discord"></i>
+    <!-- SOCIAL LINKS (guns.lol style) -->
+    <div class="links-container">
+      <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row">
+        <div class="social-left">
+          <i class="fa-brands fa-discord"></i>
+          <span>Discord</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arrow"></i>
       </a>
-      <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-btn" data-tooltip="GitHub">
-        <i class="fa-brands fa-github"></i>
+      
+      <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row">
+        <div class="social-left">
+          <i class="fa-brands fa-github"></i>
+          <span>GitHub</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arrow"></i>
       </a>
     </div>
 
-    <!-- SPECS (Horizontal Pills) -->
-    <div class="specs-row">
-      <div class="spec-pill">
+    <!-- PC SPECS -->
+    <div class="specs-container">
+      <div class="spec-item">
         <i class="fa-solid fa-microchip"></i>
         <span>Ryzen 3 2200G</span>
       </div>
-      <div class="spec-pill">
+      <div class="spec-item">
         <i class="fa-solid fa-display"></i>
         <span>Vega 8</span>
       </div>
-      <div class="spec-pill">
+      <div class="spec-item">
         <i class="fa-solid fa-memory"></i>
-        <span>8GB DDR4</span>
+        <span>8GB RAM</span>
       </div>
     </div>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <span class="mono">© 2026 KABOOM</span>
-    </footer>
 
   </main>
 
