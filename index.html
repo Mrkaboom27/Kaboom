@@ -26,7 +26,7 @@
   <!-- Main Card -->
   <main class="card" id="spotlight-card">
     
-    <!-- Theme Toggle (Now a palette icon) -->
+    <!-- Theme Toggle -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Cycle themes">
       <i class="fa-solid fa-palette"></i>
     </button>
@@ -47,7 +47,7 @@
       <button class="tab-btn active" data-target="home"><i class="fa-solid fa-house"></i></button>
       <button class="tab-btn" data-target="setup"><i class="fa-solid fa-desktop"></i></button>
       <button class="tab-btn" data-target="projects"><i class="fa-solid fa-rocket"></i></button>
-      <button class="tab-btn" data-target="ai"><i class="fa-solid fa-robot"></i></button>
+      <button class="tab-btn" data-target="playground"><i class="fa-solid fa-gamepad"></i></button>
     </div>
 
     <!-- TAB CONTENT: HOME -->
@@ -98,14 +98,34 @@
       </a>
     </div>
 
-    <!-- TAB CONTENT: AI STACK -->
-    <div class="tab-content" id="ai">
-      <div class="ai-grid">
-        <div class="ai-card interactive"><i class="fa-solid fa-comment-dots"></i><span>ChatGPT</span></div>
-        <div class="ai-card interactive"><i class="fa-solid fa-brain"></i><span>Claude</span></div>
-        <div class="ai-card interactive"><i class="fa-solid fa-code"></i><span>Cursor</span></div>
-        <div class="ai-card interactive"><i class="fa-solid fa-image"></i><span>Midjourney</span></div>
+    <!-- TAB CONTENT: PLAYGROUND (FUN STUFF) -->
+    <div class="tab-content" id="playground">
+      
+      <!-- Interactive 1: Clicker -->
+      <div class="play-card">
+        <h3>Feed the AI</h3>
+        <p id="feed-text">Click to feed me.</p>
+        <button class="action-btn interactive" id="feed-btn">
+          <i class="fa-solid fa-pizza-slice"></i> Feed
+        </button>
       </div>
+
+      <!-- Interactive 2: Fortune Cookie -->
+      <div class="play-card">
+        <h3>Fortune Cookie</h3>
+        <p id="fortune-text" style="color: var(--accent-1); font-style: italic;">Click to see your future.</p>
+        <button class="action-btn interactive" id="fortune-btn">
+          <i class="fa-solid fa-cookie"></i> Crack It
+        </button>
+      </div>
+
+      <!-- Interactive 3: Bouncing Logo -->
+      <div class="play-card" style="padding: 0; overflow: hidden; height: 80px; position: relative;">
+        <div id="bouncer" style="position: absolute; left: 10px; top: 20px; font-size: 1.5rem; color: var(--text-muted); transition: transform 0.05s linear;">
+          <i class="fa-solid fa-ghost"></i>
+        </div>
+      </div>
+
     </div>
 
     <!-- MUSIC PLAYER -->
