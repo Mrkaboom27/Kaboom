@@ -16,142 +16,167 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+  <!-- Scanline Overlay -->
+  <div class="scanlines"></div>
+
+  <!-- Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
   <!-- Custom Cursor -->
   <div class="cursor-dot"></div>
   <div class="cursor-outline"></div>
 
-  <!-- Animated Mesh Background -->
-  <div class="mesh-bg"></div>
-
-  <!-- Main Card -->
-  <main class="card" id="spotlight-card">
+  <!-- Main Card Wrapper for 3D Tilt -->
+  <div class="card-wrapper" id="card-wrapper">
     
-    <!-- Theme Toggle -->
-    <button id="theme-toggle" class="theme-toggle" aria-label="Cycle themes">
-      <i class="fa-solid fa-palette"></i>
-    </button>
-
-    <!-- PROFILE HEADER -->
-    <div class="profile-header">
-      <div class="avatar-container">
-        <div class="avatar-ring"></div>
-        <img src="https://cdn.discordapp.com/avatars/1201125553864970300/775dd6a2fa2df319e03bf32b697cab08.png" alt="Avatar" class="avatar">
-        <span class="status-dot" id="discord-status-indicator"></span>
-      </div>
-      <h1 class="name">@Kaboom <i class="fa-solid fa-check-circle verified"></i></h1>
-      <p class="tagline"><span id="typewriter"></span><span class="cursor-blink">|</span></p>
-    </div>
-
-    <!-- TABS NAVIGATION -->
-    <div class="tabs-nav">
-      <button class="tab-btn active" data-target="home"><i class="fa-solid fa-house"></i></button>
-      <button class="tab-btn" data-target="setup"><i class="fa-solid fa-desktop"></i></button>
-      <button class="tab-btn" data-target="projects"><i class="fa-solid fa-rocket"></i></button>
-      <button class="tab-btn" data-target="playground"><i class="fa-solid fa-gamepad"></i></button>
-    </div>
-
-    <!-- TAB CONTENT: HOME -->
-    <div class="tab-content active" id="home">
-      <div class="presence-box" id="presence-content">
-        <div class="loading-presence"><span class="spinner"></span> Syncing...</div>
-      </div>
-
-      <div class="links-container">
-        <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row interactive">
-          <div class="social-left"><i class="fa-brands fa-discord"></i><span>Discord</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-        </a>
-        <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row interactive">
-          <div class="social-left"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-        </a>
-      </div>
-    </div>
-
-    <!-- TAB CONTENT: SETUP -->
-    <div class="tab-content" id="setup">
-      <div class="specs-list">
-        <div class="spec-row interactive">
-          <div class="spec-icon"><i class="fa-solid fa-microchip"></i></div>
-          <div class="spec-info"><span class="spec-label">CPU</span><span class="spec-val">Ryzen 3 2200G</span></div>
-        </div>
-        <div class="spec-row interactive">
-          <div class="spec-icon"><i class="fa-solid fa-display"></i></div>
-          <div class="spec-info"><span class="spec-label">GPU</span><span class="spec-val">Radeon Vega 8</span></div>
-        </div>
-        <div class="spec-row interactive">
-          <div class="spec-icon"><i class="fa-solid fa-memory"></i></div>
-          <div class="spec-info"><span class="spec-label">RAM</span><span class="spec-val">8GB DDR4</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB CONTENT: PROJECTS -->
-    <div class="tab-content" id="projects">
-      <a href="https://retro-hub-7vx.pages.dev/" target="_blank" rel="noopener" class="project-card interactive">
-        <div class="project-icon"><i class="fa-solid fa-gamepad"></i></div>
-        <div class="project-info">
-          <h3>Retro Hub</h3>
-          <p>A full AI-built arcade with mini-games, chat, and progression.</p>
-        </div>
-        <i class="fa-solid fa-arrow-up-right-from-square project-arrow"></i>
-      </a>
-    </div>
-
-    <!-- TAB CONTENT: PLAYGROUND (FUN STUFF) -->
-    <div class="tab-content" id="playground">
+    <!-- Main Card -->
+    <main class="card" id="spotlight-card">
       
-      <!-- Interactive 1: Clicker -->
-      <div class="play-card">
-        <h3>Feed the AI</h3>
-        <p id="feed-text">Click to feed me.</p>
-        <button class="action-btn interactive" id="feed-btn">
-          <i class="fa-solid fa-pizza-slice"></i> Feed
-        </button>
+      <!-- Rotating Border -->
+      <div class="card-border-anim"></div>
+
+      <!-- Theme Toggle -->
+      <button id="theme-toggle" class="theme-toggle" aria-label="Cycle themes">
+        <i class="fa-solid fa-palette"></i>
+      </button>
+
+      <!-- PROFILE HEADER -->
+      <div class="profile-header">
+        <div class="avatar-container">
+          <div class="avatar-ring"></div>
+          <img src="https://cdn.discordapp.com/avatars/1201125553864970300/775dd6a2fa2df319e03bf32b697cab08.png" alt="Avatar" class="avatar">
+          <span class="status-dot" id="discord-status-indicator"></span>
+        </div>
+        
+        <h1 class="name glitch" data-text="@Kaboom">
+          @Kaboom <i class="fa-solid fa-check-circle verified"></i>
+        </h1>
+        <p class="tagline"><span id="typewriter"></span><span class="cursor-blink">|</span></p>
       </div>
 
-      <!-- Interactive 2: Fortune Cookie -->
-      <div class="play-card">
-        <h3>Fortune Cookie</h3>
-        <p id="fortune-text" style="color: var(--accent-1); font-style: italic;">Click to see your future.</p>
-        <button class="action-btn interactive" id="fortune-btn">
-          <i class="fa-solid fa-cookie"></i> Crack It
-        </button>
+      <!-- TABS NAVIGATION -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-target="home"><i class="fa-solid fa-house"></i> Home</button>
+        <button class="tab-btn" data-target="setup"><i class="fa-solid fa-desktop"></i> PC</button>
+        <button class="tab-btn" data-target="projects"><i class="fa-solid fa-rocket"></i> Proj</button>
+        <button class="tab-btn" data-target="playground"><i class="fa-solid fa-gamepad"></i> Play</button>
+        <button class="tab-btn" data-target="comments"><i class="fa-solid fa-comments"></i> Chat</button>
       </div>
 
-      <!-- Interactive 3: Bouncing Logo -->
-      <div class="play-card" style="padding: 0; overflow: hidden; height: 80px; position: relative;">
-        <div id="bouncer" style="position: absolute; left: 10px; top: 20px; font-size: 1.5rem; color: var(--text-muted); transition: transform 0.05s linear;">
-          <i class="fa-solid fa-ghost"></i>
+      <!-- TAB CONTENT: HOME -->
+      <div class="tab-content active" id="home">
+        <div class="presence-box" id="presence-content">
+          <div class="loading-presence"><span class="spinner"></span> Syncing...</div>
+        </div>
+
+        <div class="links-container">
+          <a href="https://discord.com/users/1201125553864970300" target="_blank" rel="noopener" class="social-row interactive">
+            <div class="social-left"><i class="fa-brands fa-discord"></i><span>Discord</span></div>
+            <i class="fa-solid fa-arrow-right arrow"></i>
+          </a>
+          <a href="https://github.com/Mrkaboom27" target="_blank" rel="noopener" class="social-row interactive">
+            <div class="social-left"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
+            <i class="fa-solid fa-arrow-right arrow"></i>
+          </a>
         </div>
       </div>
 
-    </div>
-
-    <!-- MUSIC PLAYER -->
-    <div class="music-player interactive">
-      <div class="player-info">
-        <div class="player-art"><i class="fa-solid fa-music"></i></div>
-        <div class="player-text">
-          <span class="player-title">Lofi Beat</span>
-          <span class="player-artist">Kaboom</span>
+      <!-- TAB CONTENT: SETUP -->
+      <div class="tab-content" id="setup">
+        <div class="specs-list">
+          <div class="spec-row interactive">
+            <div class="spec-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div class="spec-info"><span class="spec-label">CPU</span><span class="spec-val">Ryzen 3 2200G</span></div>
+          </div>
+          <div class="spec-row interactive">
+            <div class="spec-icon"><i class="fa-solid fa-display"></i></div>
+            <div class="spec-info"><span class="spec-label">GPU</span><span class="spec-val">Radeon Vega 8</span></div>
+          </div>
+          <div class="spec-row interactive">
+            <div class="spec-icon"><i class="fa-solid fa-memory"></i></div>
+            <div class="spec-info"><span class="spec-label">RAM</span><span class="spec-val">8GB DDR4</span></div>
+          </div>
         </div>
       </div>
-      <audio id="audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-      <div class="player-controls">
-        <button id="play-pause-btn" class="play-btn interactive"><i class="fa-solid fa-play"></i></button>
-      </div>
-      <div class="player-progress">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-    </div>
 
-    <!-- FOOTER / LIVE CLOCK -->
-    <div class="footer">
-      <span id="live-clock">00:00:00 AM</span>
-    </div>
+      <!-- TAB CONTENT: PROJECTS -->
+      <div class="tab-content" id="projects">
+        <a href="https://retro-hub-7vx.pages.dev/" target="_blank" rel="noopener" class="project-card interactive">
+          <div class="project-icon"><i class="fa-solid fa-gamepad"></i></div>
+          <div class="project-info">
+            <h3>Retro Hub</h3>
+            <p>AI-built arcade with mini-games and progression.</p>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square project-arrow"></i>
+        </a>
+      </div>
 
-  </main>
+      <!-- TAB CONTENT: PLAYGROUND -->
+      <div class="tab-content" id="playground">
+        <div class="play-card">
+          <h3>Feed the AI</h3>
+          <p id="feed-text">Click to feed me.</p>
+          <button class="action-btn interactive" id="feed-btn">
+            <i class="fa-solid fa-pizza-slice"></i> Feed
+          </button>
+        </div>
+
+        <div class="play-card">
+          <h3>Fortune Cookie</h3>
+          <p id="fortune-text" style="color: var(--accent-1); font-style: italic;">Click to see your future.</p>
+          <button class="action-btn interactive" id="fortune-btn">
+            <i class="fa-solid fa-cookie"></i> Crack It
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB CONTENT: GUESTBOOK -->
+      <div class="tab-content" id="comments">
+        <div class="comment-form">
+          <input type="text" id="comment-name" placeholder="Name (optional)" maxlength="15">
+          <textarea id="comment-text" placeholder="Leave a message..." maxlength="100" rows="2"></textarea>
+          <button id="submit-comment" class="action-btn interactive" style="width: 100%; justify-content: center;">
+            <i class="fa-solid fa-paper-plane"></i> Post
+          </button>
+        </div>
+        <div class="comment-list" id="comment-list"></div>
+      </div>
+
+      <!-- AUDIO VISUALIZER & MUSIC PLAYER -->
+      <div class="music-player interactive">
+        <div class="visualizer" id="visualizer">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div>
+        </div>
+        <div class="player-info">
+          <div class="player-art"><i class="fa-solid fa-music"></i></div>
+          <div class="player-text">
+            <span class="player-title">Lofi Beat</span>
+            <span class="player-artist">Kaboom</span>
+          </div>
+        </div>
+        <audio id="audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+        <div class="player-controls">
+          <button id="play-pause-btn" class="play-btn interactive"><i class="fa-solid fa-play"></i></button>
+        </div>
+        <div class="player-progress">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <div class="footer-left">
+          <i class="fa-solid fa-eye"></i> <span id="view-counter">0</span> views
+        </div>
+        <div class="footer-right">
+          <span id="live-clock">00:00:00 AM</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
 
   <script src="./script.js"></script>
 </body>
